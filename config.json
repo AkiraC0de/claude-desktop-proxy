@@ -1,0 +1,15 @@
+{
+  "//": "Model alias map: the ID Claude Code sends -> the model the provider actually runs.",
+  "// rules": "Exact match wins; any claude-*/anthropic-* not listed falls back to default_model; anything else passes through unchanged.",
+  "listen": { "host": "127.0.0.1", "port": 8787 },
+  "exit_with_client": "owned",
+
+  "default_model": "xiaomi/mimo-v2.6-pro",
+  "models": {
+    "anthropic/claude-fable-5": "anthropic/claude-sonnet-5.5",
+    "anthropic/claude-sonnet-5.5": "openai/gpt-6-sol",
+    "claude-sonnet-4-5": "openai/gpt-6-luna",
+    "anthropic/claude-haiku-4.5": "xiaomi/mimo-v2.6-pro",
+    "claude-opus-4-1": "openai/gpt-6-sol"
+  }
+}

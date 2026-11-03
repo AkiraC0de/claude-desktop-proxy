@@ -5,3 +5,4 @@ proxy.log.1
 proxy.pid
 *.lnk
 *.bak-*
+test/results/*.txt

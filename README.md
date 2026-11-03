@@ -49,6 +49,44 @@ backup). It can also add a Desktop shortcut and a start-at-login entry.
   exits. `config.json` `"exit_with_client": "always"` also stops a pre-existing proxy.
 - Copy `.env.example` to `.env`. `.env`, `proxy.log` and `proxy.pid` are git-ignored.
 
+## Reliability and tuning (`config.json`, all optional)
+- `retry`: `{ "max": 2, "base_ms": 200 }` — retries 502/503/504/529 and
+  connection errors with backoff, **only before any response byte is sent**.
+  `Retry-After` over 5 s is not waited for. 429 and other 4xx are never retried.
+- `fallback_models`: `{ "openai/gpt-6-sol": "anthropic/claude-sonnet-5.5" }` —
+  if the model a request was mapped to answers 429/502/503/504/529, the request
+  is re-sent once with the fallback model. The log shows `fell_back_from=`.
+- `timeouts`: `{ "headers_ms": 300000, "idle_ms": 120000 }` — cuts off an
+  upstream that never answers, or a stream that goes silent. Slow-but-live
+  streams are not affected.
+- Upstream connections are reused (keep-alive), `.env` and `config.json` are
+  re-read only when they change, and logging is asynchronous.
+
+## Observability
+One line per request, written when the response closes (so `ms=` covers the
+whole stream):
+
+```
+POST /v1/messages model=claude-sonnet-5->xiaomi/mimo-v2.6-pro via=default status=200 ms=842 bytes=1348 ua=claude-cli/2.1.0 rid=req_abc retries=1
+```
+- `via=alias|default|passthrough` — `default` means the id had no entry in
+  `config.json` and fell back to `default_model`. Add an alias if unwanted.
+- `ua=` is the client, `rid=` the provider's request id (match it in their
+  request-log page), `src=upstream|network|proxy|client` says who failed.
+- `GET /_proxy/health` and `GET /_proxy/stats` (counts by status/model/source).
+
+## Tests and benchmarks
+Zero dependencies; everything runs on loopback against a mock upstream in temp
+folders, never your real proxy, `.env` or provider.
+```
+node test/run.js                               all areas, ~4 min
+node test/run.js --area perf,rel,obs --quick   shorter
+node test/run.js --out test/results/x.json     save results
+node test/compare.js test/results/before.json test/results/after.json
+```
+`test/results/before.json` is the baseline of the pre-optimisation proxy
+(`before.txt`/`compare.md` hold the readable versions).
+
 ## Effort (thinking) control
 Effort is client-side and per model-alias — no proxy involvement:
 - `/effort low|medium|high|max` in the composer switches it live and saves it to

@@ -1,0 +1,638 @@
+{
+  "meta": {
+    "when": "2026-11-03T15:28:19.077Z",
+    "proxyFile": "C:\\Users\\Akira\\.claude\\proxy\\proxy.js",
+    "md5": "6f4517751fc3f9546320f5194c692dda",
+    "node": "v24.15.0",
+    "quick": false
+  },
+  "results": [
+    {
+      "area": "performance",
+      "name": "direct p50 / p95",
+      "status": "info",
+      "value": "0.34 / 0.88",
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "via proxy p50 / p95",
+      "status": "info",
+      "value": "1.12 / 2.18",
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "overhead p50",
+      "status": "pass",
+      "value": 0.78,
+      "unit": "ms",
+      "note": "target <= 3"
+    },
+    {
+      "area": "performance",
+      "name": "overhead p95",
+      "status": "pass",
+      "value": 1.3,
+      "unit": "ms",
+      "note": "target <= 6"
+    },
+    {
+      "area": "performance",
+      "name": "first-byte delay added",
+      "status": "pass",
+      "value": 2.33,
+      "unit": "ms",
+      "note": "target <= 3"
+    },
+    {
+      "area": "performance",
+      "name": "chunks not batched",
+      "status": "pass",
+      "value": "20/20",
+      "unit": "chunks"
+    },
+    {
+      "area": "performance",
+      "name": "stream duration preserved",
+      "status": "pass"
+    },
+    {
+      "area": "performance",
+      "name": "c=1 throughput",
+      "status": "info",
+      "value": 53,
+      "unit": "req/s"
+    },
+    {
+      "area": "performance",
+      "name": "c=1 latency p50 / p95",
+      "status": "info",
+      "value": "15.83 / 31.77",
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "c=1 no failures",
+      "status": "pass"
+    },
+    {
+      "area": "performance",
+      "name": "c=10 throughput",
+      "status": "info",
+      "value": 574,
+      "unit": "req/s"
+    },
+    {
+      "area": "performance",
+      "name": "c=10 latency p50 / p95",
+      "status": "info",
+      "value": "15.86 / 23.55",
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "c=10 no failures",
+      "status": "pass"
+    },
+    {
+      "area": "performance",
+      "name": "c=50 throughput",
+      "status": "info",
+      "value": 336,
+      "unit": "req/s"
+    },
+    {
+      "area": "performance",
+      "name": "c=50 latency p50 / p95",
+      "status": "info",
+      "value": "140.99 / 249.89",
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "c=50 no failures",
+      "status": "pass"
+    },
+    {
+      "area": "performance",
+      "name": "event-loop max stall",
+      "status": "info",
+      "value": 160.56,
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "event-loop p99 delay",
+      "status": "pass",
+      "value": 45.97,
+      "unit": "ms",
+      "note": "target <= 50"
+    },
+    {
+      "area": "performance",
+      "name": "250 KB body forwarded and model rewritten",
+      "status": "pass"
+    },
+    {
+      "area": "performance",
+      "name": "250 KB request via proxy (median)",
+      "status": "info",
+      "value": 4.98,
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "250 KB added latency (median)",
+      "status": "pass",
+      "value": 2.77,
+      "unit": "ms",
+      "note": "target <= 25"
+    },
+    {
+      "area": "performance",
+      "name": "1024 KB body forwarded and model rewritten",
+      "status": "pass"
+    },
+    {
+      "area": "performance",
+      "name": "1024 KB request via proxy (median)",
+      "status": "info",
+      "value": 13.83,
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "1024 KB added latency (median)",
+      "status": "pass",
+      "value": 5.14,
+      "unit": "ms",
+      "note": "target <= 60"
+    },
+    {
+      "area": "performance",
+      "name": "5 MB response direct / via proxy",
+      "status": "info",
+      "value": "23.62 / 51.82",
+      "unit": "ms"
+    },
+    {
+      "area": "performance",
+      "name": "read+parse both files",
+      "status": "info",
+      "value": 1393.3,
+      "unit": "us/request",
+      "note": "re-done on every request"
+    },
+    {
+      "area": "performance",
+      "name": "new upstream connections per 100 requests",
+      "status": "pass",
+      "value": 1,
+      "unit": "conns",
+      "note": "target <= 10"
+    },
+    {
+      "area": "performance",
+      "name": "RSS before -> after",
+      "status": "info",
+      "value": "65.5 -> 68.1",
+      "unit": "MB"
+    },
+    {
+      "area": "performance",
+      "name": "RSS growth",
+      "status": "pass",
+      "value": 2.6,
+      "unit": "MB",
+      "note": "target <= 60"
+    },
+    {
+      "area": "performance",
+      "name": "open handles growth",
+      "status": "pass",
+      "value": 0,
+      "unit": "handles",
+      "note": "target <= 5"
+    },
+    {
+      "area": "performance",
+      "name": "every request logged",
+      "status": "pass",
+      "value": 5062,
+      "unit": "lines"
+    },
+    {
+      "area": "reliability",
+      "name": "persistent 503 returned to client",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "upstream attempts on persistent 503",
+      "status": "pass",
+      "value": 3,
+      "unit": "attempts",
+      "note": "target <= 3"
+    },
+    {
+      "area": "reliability",
+      "name": "proxy alive afterwards",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: retry recovers from one 502",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: retry recovers from one 503",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: retry recovers from one 504",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: retry recovers from one 529",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "429 passed through with retry-after",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "400 not retried",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "502 JSON error to client",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "still serving after failure",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "persistent reset -> 502",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "upstream attempts on persistent reset",
+      "status": "pass",
+      "value": 3,
+      "unit": "attempts",
+      "note": "target <= 3"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: retry recovers from one reset",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "proxy alive afterwards",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "client sees a truncated stream",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "no JSON error appended to stream",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "no retry after bytes were sent",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "proxy alive afterwards",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "upstream request cancelled",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "30 MB stream delivered intact",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "upstream was throttled while client paused",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "proxy peak RSS growth",
+      "status": "pass",
+      "value": 8.82,
+      "unit": "MB",
+      "note": "target <= 120"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: hung upstream gets a 502/504 quickly",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: slow headers cut off",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: stalled stream is closed",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "slow but live stream is NOT cut off",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "feature: falls back when primary is overloaded",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "fallback not used when primary works",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "5 MB binary response byte-identical",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "non-JSON response passed through",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "body \"{not json\" handled",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "body \"\" handled",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "body \"null\" handled",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "body \"[1]\" handled",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "body \"\\\"str\\\"\" handled",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "proxy alive afterwards",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "pid file replaced with live pid",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "restart after hard kill serves requests",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "pid file matches new process",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "second instance exits with a clear message",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "first instance unaffected",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "baseline mapping works",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "config deleted: last good config kept",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "config half-written: last good config kept",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "config restored: picked up again",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": ".env missing: defined JSON error, no crash",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "invalid PROVIDER_BASE_URL: 500 JSON error",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "recovers when .env is fixed",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "proxy.log replaced by a directory (setup)",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "requests still served when proxy.log cannot be written",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "proxy process still running",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "soak requests",
+      "status": "info",
+      "value": 5155,
+      "unit": "req",
+      "note": "45s, 8 workers"
+    },
+    {
+      "area": "reliability",
+      "name": "no timeouts or dropped connections",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "proxy alive at end",
+      "status": "pass"
+    },
+    {
+      "area": "reliability",
+      "name": "RSS growth",
+      "status": "pass",
+      "value": 13.2,
+      "unit": "MB",
+      "note": "target <= 80"
+    },
+    {
+      "area": "reliability",
+      "name": "open handles growth",
+      "status": "pass",
+      "value": 7,
+      "unit": "handles",
+      "note": "target <= 10"
+    },
+    {
+      "area": "observability",
+      "name": "sample line (normal request)",
+      "status": "info",
+      "value": "2026-11-03T15:28:15.088Z --- proxy started on 127.0.0.1:56606 -> http://127.0.0.1:56605 aliases=1\n2026-11-03T15:28:15.131Z POST /v1/messages model=alias-model->mapped/model via=alias status=200 ms=10 bytes=98 ua=claude-c"
+    },
+    {
+      "area": "observability",
+      "name": "Q1 which client sent it (user-agent logged)",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q2a alias requests show sent -> used model",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q2b default_model fallback is visibly marked",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q2c passthrough id is distinguishable",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q3a duration logged",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q3b duration covers the whole stream",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q4 upstream request id logged (match provider logs)",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q5a upstream error marked as upstream",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q5b network failure shows cause and source",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q5c blocked request marked as proxy-generated",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "Q6 retries visible when they happen",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "no keys, tokens or request bodies in log",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "every request line has one fixed shape (status=NNN)",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "average log line size",
+      "status": "pass",
+      "value": 144.89,
+      "unit": "bytes",
+      "note": "target <= 400"
+    },
+    {
+      "area": "observability",
+      "name": "blocked requests are logged",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "config errors are logged",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "startup is logged",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "config error line says which config is used",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "status code present on failed requests",
+      "status": "pass"
+    },
+    {
+      "area": "observability",
+      "name": "log rotates past the size limit",
+      "status": "pass"
+    }
+  ]
+}

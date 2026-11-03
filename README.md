@@ -10,10 +10,27 @@ proxy forwards everything to the provider in `.env` and rewrites only the
 - `config.json` — alias map: `"claude-sonnet-5": "xiaomi/mimo-v2.6-pro"`.
   Exact matches win; unlisted claude/anthropic ids fall back to `default_model`.
 - `proxy.js` — the proxy (Node, zero dependencies).
-- `start.vbs` — hidden launcher (copied to the Startup folder for autostart).
+- `setup.js` — installer (see Setup). `.local.env` — machine-specific paths it generates.
+- `start.vbs` — hidden proxy-only launcher (the autostart shortcut points at it).
 - `launch.vbs` — Desktop launcher with proxy lifecycle (see Usage).
 - `proxy.log` — one line per request (no bodies, no keys); rotated to
   `proxy.log.1` at 5 MB.
+
+## Setup (Windows)
+```
+node setup.js
+```
+Creates `.env` (asks for provider URL and API key), detects Node and Claude
+Desktop, writes the git-ignored `.local.env`, creates `Claude (Proxy).lnk` in
+this folder, and sets `ANTHROPIC_BASE_URL` in `~/.claude/settings.json` (with a
+backup). It can also add a Desktop shortcut and a start-at-login entry.
+
+- The shortcut opens Claude Desktop and starts the proxy first if needed. Copy
+  or pin it anywhere; it points at this folder.
+- **Moved the folder?** Run `node setup.js` again — shortcuts and `.local.env`
+  are regenerated. Nothing in the project hardcodes a path.
+- Flags: `--yes` (no prompts), `--desktop`, `--autostart`, `--no-claude`,
+  `--uninstall`.
 
 ## Usage
 - Start manually: `node proxy.js` (or double-click `start.vbs` for hidden mode).

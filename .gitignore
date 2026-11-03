@@ -1,4 +1,7 @@
 .env
+.local.env
 proxy.log
 proxy.log.1
 proxy.pid
+*.lnk
+*.bak-*

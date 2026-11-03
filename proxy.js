@@ -47,12 +47,21 @@ function loadEnv() {
   return env;
 }
 
+// A config.json that fails to parse (e.g. a typo mid-edit) must not reroute
+// traffic: keep serving the last good config and log the error once per change.
+let lastGoodConfig = null;
+let lastConfigError = "";
 function loadConfig() {
   try {
-    return JSON.parse(fs.readFileSync(CFG_PATH, "utf8"));
+    lastGoodConfig = JSON.parse(fs.readFileSync(CFG_PATH, "utf8"));
+    lastConfigError = "";
+    return lastGoodConfig;
   } catch (e) {
-    log("config.json unreadable: " + e.message);
-    return { listen: { host: "127.0.0.1", port: 8787 }, default_model: "xiaomi/mimo-v2.6-pro", models: {} };
+    if (e.message !== lastConfigError) {
+      lastConfigError = e.message;
+      log(`config.json unreadable: ${e.message} — ${lastGoodConfig ? "using last good config" : "using built-in defaults"}`);
+    }
+    return lastGoodConfig || { listen: { host: "127.0.0.1", port: 8787 }, default_model: "xiaomi/mimo-v2.6-pro", models: {} };
   }
 }
 
@@ -129,6 +138,8 @@ function relay(clientReq, clientRes, body, env, cfg) {
     return json(clientRes, 500, { error: { type: "proxy_error", message: "PROVIDER_BASE_URL is not a valid URL" } });
   }
   const isHttps = upstream.protocol === "https:";
+  // Keep any path in PROVIDER_BASE_URL (e.g. https://host/api): prefix it to the request path.
+  const basePath = upstream.pathname.replace(/\/+$/, "");
   let usedModel = "-";
   if (clientReq.method === "POST" && body.length) {
     try {
@@ -151,7 +162,7 @@ function relay(clientReq, clientRes, body, env, cfg) {
   headers["Connection"] = "close";
 
   const up = (isHttps ? https : http).request(
-    { host: upstream.hostname, port: upstream.port || (isHttps ? 443 : 80), path: clientReq.url,
+    { host: upstream.hostname, port: upstream.port || (isHttps ? 443 : 80), path: basePath + clientReq.url,
       method: clientReq.method, headers, timeout: 600000 },
     (r) => {
       const keep = {};

@@ -17,6 +17,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const readline = require("readline");
+const { Writable } = require("stream");
 const { spawnSync } = require("child_process");
 
 const HERE = __dirname;
@@ -43,7 +44,12 @@ function ps(script, extraEnv = {}) {
   return { code: r.status, out: (r.stdout || "").trim(), err: (r.stderr || "").trim() };
 }
 
-const rl = INTERACTIVE ? readline.createInterface({ input: process.stdin, output: process.stdout }) : null;
+// readline echoes keystrokes through its output stream; route it through a
+// stream we can mute while a secret is typed.
+let muted = false;
+const out = new Writable({ write(chunk, enc, cb) { if (!muted) process.stdout.write(chunk, enc); cb(); } });
+const rl = INTERACTIVE ? readline.createInterface({ input: process.stdin, output: out, terminal: true }) : null;
+if (rl) out.columns = process.stdout.columns;
 
 function ask(question, def = "") {
   if (!INTERACTIVE) return Promise.resolve(def);
@@ -59,28 +65,13 @@ async function confirm(question, def) {
 // Prompt without echoing (API keys).
 function askSecret(question) {
   if (!INTERACTIVE) return Promise.resolve("");
-  return new Promise((res) => {
-    const out = process.stdout;
-    out.write(`  ${question}: `);
-    let buf = "";
-    readline.emitKeypressEvents(process.stdin);
-    process.stdin.setRawMode(true);
-    const onKey = (s, key) => {
-      if (key && (key.name === "return" || key.name === "enter")) {
-        process.stdin.setRawMode(false);
-        process.stdin.removeListener("keypress", onKey);
-        out.write("\n");
-        res(buf.trim());
-      } else if (key && key.ctrl && key.name === "c") {
-        process.exit(130);
-      } else if (key && key.name === "backspace") {
-        buf = buf.slice(0, -1);
-      } else if (s) {
-        buf += s;
-      }
-    };
-    process.stdin.on("keypress", onKey);
-  });
+  process.stdout.write(`  ${question}: `);
+  muted = true;
+  return new Promise((res) => rl.question("", (a) => {
+    muted = false;
+    process.stdout.write("\n");
+    res(a.trim());
+  }));
 }
 
 function readEnvFile(file) {

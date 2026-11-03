@@ -11,7 +11,9 @@ proxy forwards everything to the provider in `.env` and rewrites only the
   Exact matches win; unlisted claude/anthropic ids fall back to `default_model`.
 - `proxy.js` — the proxy (Node, zero dependencies).
 - `start.vbs` — hidden launcher (copied to the Startup folder for autostart).
-- `proxy.log` — one line per request (no bodies, no keys).
+- `launch.vbs` — Desktop launcher with proxy lifecycle (see Usage).
+- `proxy.log` — one line per request (no bodies, no keys); rotated to
+  `proxy.log.1` at 5 MB.
 
 ## Usage
 - Start manually: `node proxy.js` (or double-click `start.vbs` for hidden mode).
@@ -19,8 +21,16 @@ proxy forwards everything to the provider in `.env` and rewrites only the
 - Claude Code wiring (`~/.claude/settings.json`):
   - `ANTHROPIC_BASE_URL` = `http://127.0.0.1:8787`
   - `ANTHROPIC_MODEL` = any alias from config.json (e.g. `claude-sonnet-5`)
-- `/v1/models` is served from the alias keys, so the model picker shows the
-  Claude-style names and `unrecognized_model` checks pass.
+- `/v1/models` is relayed to the provider by default. Set
+  `"models_list": "aliases"` in `config.json` to serve the alias keys locally
+  instead, so the model picker shows the Claude-style names.
+- Optional `PROXY_TOKEN` in `.env`: when set, clients must send it as their API
+  key (`ANTHROPIC_API_KEY` / `ANTHROPIC_AUTH_TOKEN`). Requests with a non-loopback
+  `Host` header or browser cross-site headers are always rejected.
+- `launch.vbs` opens Claude Desktop, starting the proxy first if the configured
+  port is not listening, and stops that proxy once Claude Desktop (not the CLI)
+  exits. `config.json` `"exit_with_client": "always"` also stops a pre-existing proxy.
+- Copy `.env.example` to `.env`. `.env`, `proxy.log` and `proxy.pid` are git-ignored.
 
 ## Effort (thinking) control
 Effort is client-side and per model-alias — no proxy involvement:
